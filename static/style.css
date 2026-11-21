@@ -1,3 +1,4 @@
+
 /* ==========================================================
    SubTrack UI - clean light dashboard
    Sections: tokens, base, layout, components, pages, responsive
@@ -49,7 +50,6 @@ a:hover { text-decoration: underline; }
 .muted { color: var(--muted); }
 .small { font-size: 13px; }
 
-/* Shared icon styling for inline SVGs */
 .icon, .nav-link svg {
   fill: none;
   stroke: currentColor;
@@ -59,7 +59,7 @@ a:hover { text-decoration: underline; }
   flex: none;
 }
 
-/* ---------- App shell: sidebar + content ---------- */
+/* ---------- App shell ---------- */
 .app {
   display: grid;
   grid-template-columns: var(--sidebar-width) minmax(0, 1fr);
@@ -172,7 +172,7 @@ a:hover { text-decoration: underline; }
 }
 .page-head p { margin-top: 4px; color: var(--muted); }
 
-/* ---------- Cards, stats, layout helpers ---------- */
+/* ---------- Cards and layout ---------- */
 .card {
   padding: 22px;
   background: var(--surface);
@@ -316,7 +316,7 @@ tbody tr:hover { background: #fafbff; }
 .chips { display: flex; flex-wrap: wrap; gap: 8px; }
 .chip { padding: 6px 12px; border-radius: 999px; background: #f2f4f9; font-size: 14px; font-weight: 500; }
 
-/* ---------- Rows (renewals, price updates, members, notifications) ---------- */
+/* ---------- Rows ---------- */
 .row {
   display: flex;
   align-items: center;
@@ -341,7 +341,7 @@ tbody tr:hover { background: #fafbff; }
 .bar-label { display: flex; justify-content: space-between; margin-bottom: 6px; font-weight: 500; }
 .bar-label span:last-child { color: var(--muted); font-variant-numeric: tabular-nums; }
 
-/* ---------- Alerts, notes, empty states ---------- */
+/* ---------- Alerts and empty states ---------- */
 .alert {
   margin-bottom: 22px;
   padding: 12px 16px;
@@ -378,8 +378,7 @@ tbody tr:hover { background: #fafbff; }
 .empty p { margin-bottom: 18px; color: var(--muted); }
 .empty p:last-child { margin-bottom: 0; }
 
-/* ---------- Page-specific bits ---------- */
-/* Savings simulator */
+/* ---------- Page-specific components ---------- */
 .check-row {
   display: flex;
   align-items: center;
@@ -396,15 +395,12 @@ tbody tr:hover { background: #fafbff; }
 .summary-card .stat-value { font-size: 34px; }
 .summary-card hr { margin: 16px 0; border: 0; border-top: 1px solid var(--border); }
 
-/* Shared groups */
 .group-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 20px 20px 16px; border-bottom: 1px solid #eef0f5; }
 .group-head h2 { margin-bottom: 2px; }
 .member-progress { margin-top: 8px; }
 
-/* Overlaps */
 .overlap-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 14px; }
 
-/* Notifications */
 .bell {
   width: 38px;
   height: 38px;
@@ -435,33 +431,310 @@ tbody tr:hover { background: #fafbff; }
 .auth-card .btn { width: 100%; }
 .auth-switch { margin-top: 20px; text-align: center; color: var(--muted); }
 
+/* ---------- Renewals page ---------- */
+.renewal-filters { margin-bottom: 26px; }
+
+.renewal-filter-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.renewal-filter-head h2,
+.renewal-list-head h2 {
+  margin-bottom: 3px;
+  font-size: 16px;
+}
+
+.renewal-filter-form {
+  display: grid;
+  grid-template-columns: 1fr 1fr auto;
+  align-items: end;
+  gap: 16px;
+}
+
+.renewal-filter-form .field select {
+  min-height: 43px;
+  cursor: pointer;
+}
+
+.renewal-filter-actions {
+  display: flex;
+  gap: 9px;
+  align-items: center;
+}
+
+.renewal-list { margin-top: 8px; }
+
+.renewal-list-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.renewal-row { min-height: 82px; }
+.renewal-row:hover { background: #fafbff; }
+.renewal-status { min-width: 125px; text-align: center; }
+.renewal-empty { margin-top: 8px; }
+
+/* Month grouping headings */
+.renewal-month-heading {
+  display: flex;
+  align-items: center;
+  padding: 12px 20px;
+  background: #f8f9fc;
+  border-bottom: 1px solid var(--border);
+  color: var(--text);
+  font-size: 13px;
+}
+
+.renewal-month-heading:not(:first-child) {
+  border-top: 1px solid var(--border);
+}
+
+.renewal-month-heading strong {
+  font-weight: 700;
+}
+
+/* ---------- Compact Renewal Calendar ---------- */
+.renewal-calendar {
+  margin-bottom: 22px;
+  padding: 18px 20px;
+  overflow: visible;
+  background: #fff;
+}
+
+.calendar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.calendar-header h2 {
+  font-size: 17px;
+  margin-bottom: 3px;
+}
+
+.calendar-header p { font-size: 12px; }
+
+.calendar-navigation {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+
+.calendar-navigation strong {
+  min-width: 125px;
+  text-align: center;
+  font-size: 14px;
+}
+
+.calendar-navigation .btn {
+  width: 30px;
+  height: 30px;
+  padding: 0;
+  border-radius: 8px;
+  font-size: 19px;
+}
+
+/* Seven-column calendar */
+.renewal-calendar .calendar-grid {
+  display: grid !important;
+  grid-template-columns: repeat(7, minmax(0, 1fr)) !important;
+  gap: 5px;
+  width: 100%;
+}
+
+.renewal-calendar .calendar-weekdays { margin-bottom: 5px; }
+
+.renewal-calendar .calendar-weekdays span {
+  text-align: center;
+  color: #98a2b3;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 4px 0;
+}
+
+/* Date cells */
+.renewal-calendar .calendar-day {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  min-width: 0;
+  min-height: 48px;
+  padding: 5px 2px;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  background: #f8f9fc;
+  transition: 0.2s ease;
+}
+
+.renewal-calendar .calendar-day:not(.empty-day):hover {
+  background: #f0f1f8;
+}
+
+.renewal-calendar .calendar-day.empty-day {
+  background: transparent;
+  border: none;
+}
+
+.calendar-date-number {
+  font-size: 12px;
+  font-weight: 600;
+  color: #475467;
+}
+
+/* Today */
+.calendar-day.is-today {
+  border: 1.5px solid var(--primary);
+  background: white;
+}
+
+.calendar-day.is-today .calendar-date-number {
+  color: var(--primary);
+  font-weight: 800;
+}
+
+/* Renewal dates */
+.calendar-day.has-renewal {
+  background: #eef0ff;
+  border: 1px solid #d9dcff;
+  cursor: pointer;
+}
+
+.calendar-day.has-renewal .calendar-date-number {
+  color: #3730a3;
+  font-weight: 800;
+}
+
+.calendar-day.has-renewal:hover {
+  background: #e1e4ff;
+  border-color: var(--primary);
+  z-index: 5;
+}
+
+/* Small renewal dot */
+.calendar-renewal-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--primary);
+}
+
+/* Tooltip */
+.calendar-tooltip {
+  display: none;
+  position: absolute;
+  bottom: calc(100% + 7px);
+  left: 50%;
+  transform: translateX(-50%);
+  width: max-content;
+  max-width: 180px;
+  min-width: 120px;
+  padding: 9px 11px;
+  border-radius: 8px;
+  background: #1b2236;
+  color: white;
+  box-shadow: 0 5px 15px rgba(16, 24, 40, 0.18);
+  flex-direction: column;
+  gap: 6px;
+  font-size: 11px;
+  pointer-events: none;
+  z-index: 20;
+}
+
+.calendar-tooltip strong {
+  font-size: 11px;
+  color: #c7ccff;
+  padding-bottom: 5px;
+  border-bottom: 1px solid rgba(255,255,255,0.15);
+}
+
+.calendar-day.has-renewal:hover .calendar-tooltip {
+  display: flex;
+}
+
+/* Legend */
+.calendar-legend {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  margin-top: 13px;
+  padding-top: 10px;
+  border-top: 1px solid var(--border);
+}
+
+.legend-dot {
+  width: 6px;
+  height: 6px;
+  background: var(--primary);
+  border-radius: 50%;
+}
+
 /* ---------- Responsive ---------- */
 @media (max-width: 900px) {
-  .app { display: block; }
-
-  .sidebar {
-    position: sticky;
-    z-index: 10;
-    height: auto;
-    flex-direction: row;
-    align-items: center;
-    gap: 10px;
-    padding: 10px 14px;
-    overflow-x: auto;
-    border-right: 0;
-    border-bottom: 1px solid var(--border);
-  }
-  .brand { padding: 0 8px 0 0; }
-  .brand span:last-child { display: none; }
-  .nav { display: flex; gap: 4px; }
-  .nav-group { display: flex; gap: 4px; margin: 0; }
-  .nav-title { display: none; }
-  .nav-link { padding: 8px 12px; }
-  .sidebar-foot { margin: 0 0 0 auto; padding: 0; border: 0; }
-  .user-name { display: none; }
-
-  .page { padding: 22px 16px 48px; }
+  .app { grid-template-columns: 210px minmax(0, 1fr); }
+  .page { padding: 28px 22px 48px; }
   .split { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 650px) {
+  .app { grid-template-columns: 1fr; }
+  .sidebar {
+    position: relative;
+    height: auto;
+    padding: 12px;
+  }
+  .page { padding: 22px 16px 40px; }
   .form-grid { grid-template-columns: 1fr; }
-  .summary-card { position: sticky; top: auto; bottom: 12px; }
+  .span-2 { grid-column: auto; }
+
+  .renewal-filter-form {
+    grid-template-columns: 1fr;
+  }
+
+  .renewal-filter-actions {
+    flex-wrap: wrap;
+  }
+
+  .renewal-row {
+    flex-wrap: wrap;
+    gap: 10px;
+    padding: 14px;
+  }
+
+  .renewal-status {
+    min-width: auto;
+    text-align: left;
+  }
+
+  .renewal-calendar { padding: 14px; }
+
+  .calendar-header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .calendar-navigation {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .renewal-calendar .calendar-grid { gap: 3px; }
+
+  .renewal-calendar .calendar-day {
+    min-height: 40px;
+    padding: 3px 1px;
+  }
+
+  .calendar-date-number { font-size: 11px; }
 }

@@ -1,5 +1,6 @@
 {% set icons = {
     'dashboard': '<rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/>',
+    'renewals': '<rect x="3" y="4" width="18" height="17" rx="2.5"/><path d="M8 2v4M16 2v4M3 10h18"/>',
     'logout': '<path d="M9 21H5.5A2.5 2.5 0 0 1 3 18.5v-13A2.5 2.5 0 0 1 5.5 3H9"/><path d="M16 17l5-5-5-5M21 12H9"/>'
 } %}
 {% macro nav_link(endpoint, label, icon) -%}
@@ -26,6 +27,7 @@
       <div class="nav-group">
         <div class="nav-title">Manage</div>
         {{ nav_link('sprint1.dashboard', 'Dashboard', icons.dashboard) }}
+        {{ nav_link('sprint2.renewals', 'Renewals', icons.renewals) }}
       </div>
     </nav>
     <div class="sidebar-foot">
