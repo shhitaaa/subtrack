@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block title %}Log in · SubTrack{% endblock %}
+{% block content %}
+<div class="card auth-card">
+  <div class="auth-brand"><span class="brand-mark">S</span><span>SubTrack</span></div>
+  <h1>Welcome back</h1>
+  <p class="lead">Log in to manage your subscriptions.</p>
+  <form method="post" class="stack">
+    <label class="field"><span>Email</span><input name="email" type="email" autocomplete="email" required></label>
+    <label class="field"><span>Password</span><input name="password" type="password" autocomplete="current-password" required></label>
+    <button class="btn btn-primary">Log in</button>
+  </form>
+  <p class="auth-switch">New here? <a href="{{ url_for('sprint1.register') }}">Create an account</a></p>
+</div>
+{% endblock %}

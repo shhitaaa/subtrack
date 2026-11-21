@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+{% block title %}Dashboard · SubTrack{% endblock %}
+{% block content %}
+<div class="page-head">
+  <div>
+    <h1>Your subscriptions</h1>
+    <p>Everything you pay for, in one place.</p>
+  </div>
+  <a class="btn btn-primary" href="{{ url_for('sprint1.add_subscription') }}">
+    <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
+    Add subscription
+  </a>
+</div>
+
+<section class="stats">
+  <div class="card stat">
+    <span class="stat-label">Monthly total</span>
+    <span class="stat-value">₹{{ '%.2f'|format(monthly_total) }}</span>
+    <span class="stat-hint">Monthly-cycle subscriptions only</span>
+  </div>
+  <div class="card stat">
+    <span class="stat-label">Active subscriptions</span>
+    <span class="stat-value">{{ subscriptions|length }}</span>
+    <span class="stat-hint">Currently being tracked</span>
+  </div>
+  <div class="card stat">
+    <span class="stat-label">Next renewal</span>
+    {% if subscriptions %}
+      <span class="stat-value sm">{{ subscriptions[0].name }}</span>
+      <span class="stat-hint">{{ subscriptions[0].next_renewal.strftime('%d %b %Y') }}</span>
+    {% else %}
+      <span class="stat-value sm">&mdash;</span>
+      <span class="stat-hint">Nothing scheduled</span>
+    {% endif %}
+  </div>
+</section>
+
+{% if subscriptions %}
+<div class="card flush">
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th>Service</th><th>Category</th><th>Price</th><th>Cycle</th><th>Next renewal</th><th></th></tr>
+      </thead>
+      <tbody>
+        {% for s in subscriptions %}
+        <tr>
+          <td><div class="cell-name"><span class="avatar av-{{ loop.index0 % 6 }}">{{ s.name[:1]|upper }}</span>{{ s.name }}</div></td>
+          <td><span class="badge badge-primary">{{ s.category }}</span></td>
+          <td class="num">₹{{ '%.2f'|format(s.amount|float) }}</td>
+          <td>{{ s.billing_cycle|capitalize }}</td>
+          <td>{{ s.next_renewal.strftime('%d %b %Y') }}</td>
+          <td>
+            <div class="actions">
+              <a class="btn btn-ghost btn-sm" href="{{ url_for('sprint1.edit_subscription', item_id=s.id) }}">Edit</a>
+              <form method="post" action="{{ url_for('sprint1.delete_subscription', item_id=s.id) }}" onsubmit="return confirm('Delete this subscription?');">
+                <button class="btn btn-danger btn-sm">Delete</button>
+              </form>
+            </div>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% else %}
+<div class="card empty">
+  <div class="empty-icon"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="17" rx="2.5"/><path d="M8 2v4M16 2v4M3 10h18"/></svg></div>
+  <h3>No subscriptions yet</h3>
+  <p>Add your first subscription to start tracking what you spend.</p>
+  <a class="btn btn-primary" href="{{ url_for('sprint1.add_subscription') }}">Add subscription</a>
+</div>
+{% endif %}
+{% endblock %}

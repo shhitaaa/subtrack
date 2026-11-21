@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block title %}Create account · SubTrack{% endblock %}
+{% block content %}
+<div class="card auth-card">
+  <div class="auth-brand"><span class="brand-mark">S</span><span>SubTrack</span></div>
+  <h1>Create your account</h1>
+  <p class="lead">Track every subscription in one place.</p>
+  <form method="post" class="stack">
+    <label class="field"><span>Name</span><input name="name" autocomplete="name" required></label>
+    <label class="field"><span>Email</span><input name="email" type="email" autocomplete="email" required></label>
+    <label class="field"><span>Password (minimum 8 characters)</span><input name="password" type="password" minlength="8" autocomplete="new-password" required></label>
+    <button class="btn btn-primary">Create account</button>
+  </form>
+  <p class="auth-switch">Already registered? <a href="{{ url_for('sprint1.login') }}">Log in</a></p>
+</div>
+{% endblock %}

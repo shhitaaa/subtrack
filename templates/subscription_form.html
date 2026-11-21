@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% block title %}{{ 'Edit' if item else 'Add' }} subscription · SubTrack{% endblock %}
+{% block content %}
+<div class="page-head">
+  <div>
+    <h1>{{ 'Edit' if item else 'Add' }} subscription</h1>
+    <p>{{ 'Update the details below.' if item else 'Enter the details of a service you pay for.' }}</p>
+  </div>
+</div>
+
+<div class="card form-card">
+  <form method="post" class="form-grid">
+    <label class="field span-2"><span>Service name</span>
+      <input name="name" required value="{{ item.name if item else '' }}">
+    </label>
+    <label class="field"><span>Category</span>
+      <input name="category" list="category-options" required value="{{ item.category if item else 'Other' }}">
+      <datalist id="category-options">
+        {% for c in ['Entertainment', 'Music', 'Productivity', 'Cloud storage', 'Education', 'Fitness', 'News', 'Other'] %}<option value="{{ c }}">{% endfor %}
+      </datalist>
+    </label>
+    <label class="field"><span>Amount (₹)</span>
+      <input name="amount" type="number" min="0.01" step="0.01" required value="{{ item.amount if item else '' }}">
+    </label>
+    <label class="field"><span>Billing cycle</span>
+      <select name="billing_cycle">
+        {% for c in ['monthly', 'quarterly', 'half-yearly', 'yearly'] %}
+        <option value="{{ c }}" {% if item and item.billing_cycle == c %}selected{% endif %}>{{ c|capitalize }}</option>
+        {% endfor %}
+      </select>
+    </label>
+    <label class="field"><span>Next renewal</span>
+      <input name="next_renewal" type="date" required value="{{ item.next_renewal if item else '' }}">
+    </label>
+    <div class="form-actions span-2">
+      <button class="btn btn-primary">Save</button>
+      <a class="btn btn-ghost" href="{{ url_for('sprint1.dashboard') }}">Cancel</a>
+    </div>
+  </form>
+</div>
+{% endblock %}
