@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+{% block title %}Sharing · SubTrack{% endblock %}
+{% block content %}
+<div class="page-head">
+  <div>
+    <h1>Shared subscriptions</h1>
+    <p>Split the cost of a plan with friends or family and track who has paid.</p>
+  </div>
+</div>
+
+<div class="split">
+  <div class="stack-lg">
+    {% for g in groups %}
+    {% set total = g.members|sum(attribute='share_amount')|float %}
+    {% set collected = g.members|sum(attribute='paid_amount')|float %}
+    <div class="card flush">
+      <div class="group-head">
+        <div>
+          <h2>{{ g.group_name }}</h2>
+          <span class="muted small">{{ g.members|length }} member{{ '' if g.members|length == 1 else 's' }} · ₹{{ '%.2f'|format(collected) }} of ₹{{ '%.2f'|format(total) }} collected</span>
+        </div>
+        {% if total > 0 and collected >= total %}<span class="badge badge-success">Fully settled</span>{% endif %}
+      </div>
+      {% for m in g.members %}
+      {% set share = m.share_amount|float %}
+      {% set paid = m.paid_amount|float %}
+      {% set due = share - paid %}
+      <div class="row">
+        <span class="avatar av-{{ loop.index0 % 6 }}">{{ m.member_name[:1]|upper }}</span>
+        <div class="row-main">
+          <strong>{{ m.member_name }}</strong>
+          <span>Share ₹{{ '%.2f'|format(share) }} · Paid ₹{{ '%.2f'|format(paid) }}</span>
+          <div class="progress member-progress {{ 'done' if due <= 0 else '' }}"><span style="width: {{ '%.1f'|format([paid / share * 100, 100]|min if share else 0) }}%"></span></div>
+        </div>
+        {% if due <= 0 %}
+          <span class="badge badge-success">Settled</span>
+        {% else %}
+          <span class="badge badge-warning">₹{{ '%.2f'|format(due) }} due</span>
+        {% endif %}
+      </div>
+      {% endfor %}
+    </div>
+    {% else %}
+    <div class="card empty">
+      <div class="empty-icon"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c0-3.6 2.9-6 6.5-6s6.5 2.4 6.5 6"/><path d="M16 4.6a3.5 3.5 0 0 1 0 6.8M18.5 14.4c1.8.8 3 2.6 3 5.6"/></svg></div>
+      <h3>No shared groups yet</h3>
+      <p>Use the form to create a group and add the first member.</p>
+    </div>
+    {% endfor %}
+  </div>
+
+  <div class="card">
+    <h2 class="section-title">Add a member</h2>
+    <form method="post" class="stack">
+      <label class="field"><span>Group name</span><input name="group_name" placeholder="e.g. Family Netflix" required></label>
+      <label class="field"><span>Member name</span><input name="member_name" required></label>
+      <label class="field"><span>Member's share (₹)</span><input name="share_amount" type="number" min="0.01" step="0.01" required></label>
+      <button class="btn btn-primary">Add member</button>
+    </form>
+    <p class="muted small" style="margin-top: 14px;">Using an existing group name adds the member to that group.</p>
+  </div>
+</div>
+{% endblock %}

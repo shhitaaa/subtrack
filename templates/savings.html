@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+{% block title %}Savings · SubTrack{% endblock %}
+{% block content %}
+<div class="page-head">
+  <div>
+    <h1>Savings simulator</h1>
+    <p>Select subscriptions you are considering cancelling to see how much you could save.</p>
+  </div>
+</div>
+
+{% if entries %}
+<div class="split">
+  <div class="card flush">
+    {% for s, monthly in entries %}
+    <label class="check-row">
+      <input type="checkbox" class="saving" data-value="{{ monthly }}">
+      <span class="avatar av-{{ loop.index0 % 6 }}">{{ s.name[:1]|upper }}</span>
+      <div class="row-main"><strong>{{ s.name }}</strong><span>{{ s.category }}</span></div>
+      <span class="row-amount">₹{{ '%.2f'|format(monthly) }}<span class="muted small">/mo</span></span>
+    </label>
+    {% endfor %}
+  </div>
+
+  <aside class="card summary-card">
+    <div class="stat">
+      <span class="stat-label">Potential monthly savings</span>
+      <span class="stat-value">₹<span id="total">0.00</span></span>
+    </div>
+    <hr>
+    <div class="stat">
+      <span class="stat-label">Potential yearly savings</span>
+      <span class="stat-value sm">₹<span id="yearly">0.00</span></span>
+    </div>
+    <p class="muted small" style="margin-top: 16px;">This is only a simulation. SubTrack will not cancel anything.</p>
+  </aside>
+</div>
+{% else %}
+<div class="card empty">
+  <div class="empty-icon"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2v20"/><path d="M17 6.5H9.5a3 3 0 0 0 0 6h5a3 3 0 0 1 0 6H6"/></svg></div>
+  <h3>Nothing to simulate yet</h3>
+  <p>Add some subscriptions first, then come back to test what cancelling would save.</p>
+  <a class="btn btn-primary" href="{{ url_for('sprint1.add_subscription') }}">Add subscription</a>
+</div>
+{% endif %}
+
+<script>
+  const boxes = document.querySelectorAll('.saving');
+  function update() {
+    let sum = 0;
+    boxes.forEach(b => { if (b.checked) sum += Number(b.dataset.value); });
+    document.getElementById('total').textContent = sum.toFixed(2);
+    document.getElementById('yearly').textContent = (sum * 12).toFixed(2);
+  }
+  boxes.forEach(b => b.addEventListener('change', update));
+</script>
+{% endblock %}
