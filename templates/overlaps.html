@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% block title %}Overlaps · SubTrack{% endblock %}
+{% block content %}
+<div class="page-head">
+  <div>
+    <h1>Possible subscription overlaps</h1>
+    <p>Categories where you pay for more than one service.</p>
+  </div>
+</div>
+
+<div class="note">We flag categories containing multiple active subscriptions. This is a prompt to review, not proof that services are duplicates.</div>
+
+{% if overlaps %}
+<div class="stack-lg">
+  {% for x in overlaps %}
+  <div class="card">
+    <div class="overlap-head">
+      <h2>{{ x.category }}</h2>
+      <span class="badge badge-warning">{{ x.total }} subscriptions</span>
+    </div>
+    <div class="chips">
+      {% set names = x.names if x.names is string else x.names.decode() %}
+      {% for n in names.split(', ') %}<span class="chip">{{ n }}</span>{% endfor %}
+    </div>
+  </div>
+  {% endfor %}
+</div>
+{% else %}
+<div class="card empty">
+  <div class="empty-icon"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg></div>
+  <h3>No repeated categories found</h3>
+  <p>Each of your active subscriptions sits in its own category.</p>
+</div>
+{% endif %}
+{% endblock %}

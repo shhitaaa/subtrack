@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% block title %}Notifications · SubTrack{% endblock %}
+{% block content %}
+<div class="page-head">
+  <div>
+    <h1>Notifications</h1>
+    <p>Reminders for subscriptions that renew soon.</p>
+  </div>
+  <form method="post" action="{{ url_for('sprint4.generate_notifications') }}">
+    <button class="btn btn-primary">
+      <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 8 3 8H3s3-1 3-8"/><path d="M10.3 21a2 2 0 0 0 3.4 0"/></svg>
+      Generate reminders for the next 7 days
+    </button>
+  </form>
+</div>
+
+{% if notifications %}
+<div class="card flush">
+  {% for n in notifications %}
+  <div class="row">
+    <span class="bell"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 8 3 8H3s3-1 3-8"/><path d="M10.3 21a2 2 0 0 0 3.4 0"/></svg></span>
+    <div class="row-main">
+      <strong>{{ n.message }}</strong>
+      <span>{{ n.created_at.strftime('%d %b %Y, %H:%M') }}</span>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+{% else %}
+<div class="card empty">
+  <div class="empty-icon"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 8 3 8H3s3-1 3-8"/><path d="M10.3 21a2 2 0 0 0 3.4 0"/></svg></div>
+  <h3>No notifications yet</h3>
+  <p>Generate reminders to be told about renewals in the next 7 days.</p>
+</div>
+{% endif %}
+{% endblock %}
